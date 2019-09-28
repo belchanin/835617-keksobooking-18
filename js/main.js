@@ -20,38 +20,35 @@ var generateFeaturesArray = function (array, count) {
   return newArray;
 };
 
-var generateObjectData = function () {
-  return {
-    'author': {
-      'avatar': 'img/avatars/user0' + getRandomInt(1, 8) + '.png'
-    },
-
-    'offer': {
-      'title': 'Привет, мир!',
-      'address': getRandomInt(100, 600) + ',' + getRandomInt(100, 600),
-      'price': '2000',
-      'type': ROOM_TYPES[getRandomInt(0, 3)],
-      'rooms': getRandomInt(1, 5),
-      'guests': getRandomInt(1, 5),
-      'checkin': getRandomInt(12, 14) + ':00',
-      'checkout': getRandomInt(12, 14) + ':00',
-      'features': generateFeaturesArray(ROOM_FEATURES, getRandomInt(1, ROOM_FEATURES.length)),
-      'description': 'Описание',
-      'photos': ['http://o0.github.io/assets/images/tokyo/hotel' + getRandomInt(1, 3) + '.jpg', 'http://o0.github.io/assets/images/tokyo/hotel' + getRandomInt(1, 3) + '.jpg'],
-    },
-
-    'location': {
-      'x': getRandomInt(0, 1200) + PIN_WIDTH / 2,
-      'y': getRandomInt(130, 630) + PIN_HEIGHT,
-    },
-  };
-};
-
 var generateArray = function (count) {
   var array = [];
 
   for (var i = 0; i < count; i++) {
-    array.push(generateObjectData());
+    var object = {
+      'author': {
+        'avatar': 'img/avatars/user0' + getRandomInt(1, 8) + '.png'
+      },
+
+      'offer': {
+        'title': 'Привет, мир!',
+        'address': getRandomInt(100, 600) + ',' + getRandomInt(100, 600),
+        'price': '2000',
+        'type': ROOM_TYPES[getRandomInt(0, 3)],
+        'rooms': getRandomInt(1, 5),
+        'guests': getRandomInt(1, 5),
+        'checkin': getRandomInt(12, 14) + ':00',
+        'checkout': getRandomInt(12, 14) + ':00',
+        'features': generateFeaturesArray(ROOM_FEATURES, getRandomInt(1, ROOM_FEATURES.length)),
+        'description': 'Описание',
+        'photos': ['http://o0.github.io/assets/images/tokyo/hotel' + getRandomInt(1, 3) + '.jpg', 'http://o0.github.io/assets/images/tokyo/hotel' + getRandomInt(1, 3) + '.jpg'],
+      },
+
+      'location': {
+        'x': getRandomInt(0, 1200) + PIN_WIDTH / 2,
+        'y': getRandomInt(130, 630) + PIN_HEIGHT,
+      },
+    };
+    array.push(object);
   }
   return array;
 };

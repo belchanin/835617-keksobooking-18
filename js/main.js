@@ -72,11 +72,12 @@ var pinList = document.querySelector('.map__pins');
 var pins = generateArray(PIN_QUANTITY);
 var fragment = document.createDocumentFragment();
 
-for (var i = 0; i < PIN_QUANTITY; i++) {
-  fragment.appendChild(insertData(pinTemplate, pins[i]));
-}
-
-pinList.appendChild(fragment);
+var renderPins = function () {
+  for (var i = 0; i < PIN_QUANTITY; i++) {
+    fragment.appendChild(insertData(pinTemplate, pins[i]));
+  }
+  pinList.appendChild(fragment);
+};
 
 var adForm = document.querySelector('.ad-form');
 var adFormChildren = adForm.children;
@@ -93,19 +94,20 @@ var MAIN_PIN_WIDTH = 62;
 var MAIN_PIN_HEIGHT = 62;
 
 var setDisabledAttributes = function (elements) {
-  for (i = 0; i < elements.length; i++) {
+  for (var i = 0; i < elements.length; i++) {
     elements[i].setAttribute('disabled', 'disabled');
   }
 };
 
 var removeDisabledAttributes = function (elements) {
-  for (i = 0; i < elements.length; i++) {
+  for (var i = 0; i < elements.length; i++) {
     elements[i].removeAttribute('disabled');
   }
 };
 
 var changePageState = function () {
   map.classList.remove('map--faded');
+  renderPins();
   adForm.classList.remove('ad-form--disabled');
   removeDisabledAttributes(adFormChildren);
   removeDisabledAttributes(mapFiltersChildren);
@@ -156,7 +158,7 @@ var validateRoomsForGuests = function () {
 
   var roomSelected = room.value;
   var guestSelected = guest.value;
-  return room.setCustomValidity(roomsForGuests[roomSelected].guests.includes(guestSelected) ? '' : roomsForGuests[roomSelected].error);
+  return guest.setCustomValidity(roomsForGuests[roomSelected].guests.includes(guestSelected) ? '' : roomsForGuests[roomSelected].error);
 };
 
 adFormSubmit.addEventListener('click', function () {

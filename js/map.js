@@ -24,9 +24,17 @@
     }
   };
 
+  var errorHandler = function (errorMessage) {
+    var errorBlock = document.querySelector('#error').content;
+    var errorText = errorBlock.querySelector('.error__message');
+
+    errorText.textContent = errorMessage;
+    document.querySelector('main').appendChild(errorBlock);
+  };
+
   var changePageState = function () {
     map.classList.remove('map--faded');
-    window.renderPins();
+    window.backend.load(window.successGetHandler, errorHandler);
     window.util.adForm.classList.remove('ad-form--disabled');
     removeDisabledAttributes(adFormChildren);
     removeDisabledAttributes(mapFiltersChildren);

@@ -19,12 +19,10 @@
   var pinTemplate = document.querySelector('#pin').content;
   var pinList = document.querySelector('.map__pins');
 
-  var pins = window.generateArray(PIN_QUANTITY);
-  var fragment = document.createDocumentFragment();
-
-  window.renderPins = function () {
+  window.successGetHandler = function (pinsData) {
+    var fragment = document.createDocumentFragment();
     for (var i = 0; i < PIN_QUANTITY; i++) {
-      fragment.appendChild(insertData(pinTemplate, pins[i]));
+      fragment.appendChild(insertData(pinTemplate, pinsData[i]));
     }
     pinList.appendChild(fragment);
   };

@@ -2,6 +2,8 @@
 
 (function () {
   var PIN_QUANTITY = 5;
+  var map = document.querySelector('.map');
+  var filtersContainer = map.querySelector('.map__filters-container');
 
   var insertData = function (template, element) {
     var newBlock = template.cloneNode(true);
@@ -26,5 +28,6 @@
       fragment.appendChild(insertData(pinTemplate, pinsData[i]));
     }
     pinList.appendChild(fragment);
+    map.insertBefore(window.insertCardData(pinsData[0]), filtersContainer);
   };
 })();

@@ -4,6 +4,42 @@
   var adFormSubmit = window.util.adForm.querySelector('.ad-form__submit');
   var room = window.util.adForm.querySelector('[name = "rooms"]');
   var guest = window.util.adForm.querySelector('[name= "capacity"]');
+  var houseType = window.util.adForm.querySelector('[name= "type"]');
+  var price = window.util.adForm.querySelector('[name= "price"]');
+  var timeIn = window.util.adForm.querySelector('[name= "timein"]');
+  var timeOut = window.util.adForm.querySelector('[name= "timeout"]');
+
+  var changeTimeOption = function (first, second) {
+    switch (true) {
+      case (first.value === '12:00'): second.value = '12:00';
+        break;
+      case (first.value === '13:00'): second.value = '13:00';
+        break;
+      case (first.value === '14:00'): second.value = '14:00';
+        break;
+    }
+    return true;
+  };
+
+  timeIn.addEventListener('change', function () {
+    changeTimeOption(timeIn, timeOut);
+  });
+
+  timeOut.addEventListener('change', function () {
+    changeTimeOption(timeOut, timeIn);
+  });
+
+  var priceForHouseType = {
+    'bungalo': '0',
+    'flat': '1000',
+    'house': '5000',
+    'palace': '10000'
+  };
+
+  houseType.addEventListener('change', function () {
+    price.setAttribute('placeholder', priceForHouseType[houseType.value]);
+    price.setAttribute('min', priceForHouseType[houseType.value]);
+  });
 
   var validateRoomsForGuests = function () {
     var roomsForGuests = {

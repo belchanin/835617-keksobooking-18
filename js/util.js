@@ -2,6 +2,7 @@
 
 (function () {
   var ENTER_KEYCODE = 13;
+  var ESC_KEYCODE = 27;
   var adForm = document.querySelector('.ad-form');
 
   window.util = {
@@ -9,6 +10,7 @@
       return Math.floor(Math.random() * (max - min) + min);
     },
     ENTER_KEYCODE: ENTER_KEYCODE,
+    ESC_KEYCODE: ESC_KEYCODE,
     adForm: adForm,
   };
 })();

@@ -47,7 +47,7 @@
 
   var insertData = function (template, element) {
     var newBlock = template.cloneNode(true);
-    var pin = newBlock.querySelector('.map__pin');
+    var pin = newBlock.querySelector('.map__pin:not(.map__pin--main)');
     var img = newBlock.querySelector('img');
 
     pin.style.left = element.location.x + 'px';
@@ -62,15 +62,14 @@
   var pinList = document.querySelector('.map__pins');
 
   window.renderPins = function (pinsData) {
-    pinList.innerHTML = '';
     var fragment = document.createDocumentFragment();
     for (var i = 0; i < PIN_QUANTITY; i++) {
       fragment.appendChild(insertData(pinTemplate, pinsData[i]));
     }
     pinList.appendChild(fragment);
     var children = pinList.children;
-    for (i = 0; i < children.length; i++) {
-      cardOpenСlickHander(children[i], pinsData[i]);
+    for (i = 2; i < children.length; i++) {
+      cardOpenСlickHander(children[i], pinsData[i - 2]);
     }
   };
 })();

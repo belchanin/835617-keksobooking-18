@@ -3,7 +3,7 @@
 (function () {
   var adFormChildren = window.util.adForm.children;
   var map = document.querySelector('.map');
-  var mapPinMain = map.querySelector('.map__pin--main');
+  window.mapPinMain = map.querySelector('.map__pin--main');
   var mapFilters = map.querySelector('.map__filters');
   var mapFiltersChildren = mapFilters.children;
   var addressInput = window.util.adForm.querySelector('input[name = "address"]');
@@ -11,7 +11,7 @@
   var mapPins = map.querySelector('.map__pins');
 
   var MAIN_PIN_TAIL_HEIGHT = 22;
-  var MAIN_PIN_WIDTH = 62;
+  window.MAIN_PIN_WIDTH = 62;
   var MAIN_PIN_HEIGHT = 62;
   var MIN_MAP_HEIGHT = 130;
   var MAX_MAP_HEIGHT = 630;
@@ -19,8 +19,8 @@
   var pins = [];
 
   var limitXCoords = function (x) {
-    var start = mapPins.offsetLeft - mapPinMain.offsetWidth / 2;
-    var end = mapPins.offsetLeft + mapPins.offsetWidth - mapPinMain.offsetWidth / 2;
+    var start = mapPins.offsetLeft - window.mapPinMain.offsetWidth / 2;
+    var end = mapPins.offsetLeft + mapPins.offsetWidth - window.mapPinMain.offsetWidth / 2;
 
     if (x < start) {
       return start;
@@ -32,7 +32,7 @@
   };
 
   var limitYCoords = function (y) {
-    var start = mapPins.offsetTop + MIN_MAP_HEIGHT - mapPinMain.offsetHeight - MAIN_PIN_TAIL_HEIGHT;
+    var start = mapPins.offsetTop + MIN_MAP_HEIGHT - window.mapPinMain.offsetHeight - MAIN_PIN_TAIL_HEIGHT;
     var end = mapPins.offsetTop + MAX_MAP_HEIGHT - MAIN_PIN_TAIL_HEIGHT;
     if (y < start) {
       return start;
@@ -43,11 +43,11 @@
     return y;
   };
 
-  var calculatePinCoordinates = function () {
-    return (Math.floor(MAIN_PIN_WIDTH / 2) + parseInt(mapPinMain.style.left, 10)) + ', ' + (MAIN_PIN_HEIGHT + parseInt(mapPinMain.style.top, 10) + MAIN_PIN_TAIL_HEIGHT);
+  window.calculatePinCoordinates = function () {
+    return (Math.floor(window.MAIN_PIN_WIDTH / 2) + parseInt(window.mapPinMain.style.left, 10)) + ', ' + (MAIN_PIN_HEIGHT + parseInt(window.mapPinMain.style.top, 10) + MAIN_PIN_TAIL_HEIGHT);
   };
 
-  var setDisabledAttributes = function (elements) {
+  window.setDisabledAttributes = function (elements) {
     for (var i = 0; i < elements.length; i++) {
       elements[i].setAttribute('disabled', 'disabled');
     }
@@ -95,19 +95,19 @@
     removeDisabledAttributes(adFormChildren);
     removeDisabledAttributes(mapFiltersChildren);
 
-    addressInput.value = calculatePinCoordinates();
+    addressInput.value = window.calculatePinCoordinates();
   };
 
-  setDisabledAttributes(adFormChildren);
-  setDisabledAttributes(mapFiltersChildren);
+  window.setDisabledAttributes(adFormChildren);
+  window.setDisabledAttributes(mapFiltersChildren);
 
-  addressInput.value = calculatePinCoordinates();
+  addressInput.value = window.calculatePinCoordinates();
 
-  mapPinMain.addEventListener('click', function () {
+  window.mapPinMain.addEventListener('click', function () {
     changePageState();
   });
 
-  mapPinMain.addEventListener('keydown', function (evt) {
+  window.mapPinMain.addEventListener('keydown', function (evt) {
     if (evt.keyCode === window.util.ENTER_KEYCODE) {
       changePageState();
     }
@@ -117,7 +117,7 @@
     updateMap(pins);
   });
 
-  mapPinMain.addEventListener('mousedown', function (evt) {
+  window.mapPinMain.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
 
     var startCoords = {
@@ -141,14 +141,14 @@
         y: moveEvt.clientY
       };
 
-      mapPinMain.style.top = limitYCoords(mapPinMain.offsetTop - shift.y) + 'px';
-      mapPinMain.style.left = limitXCoords(mapPinMain.offsetLeft - shift.x) + 'px';
-      addressInput.value = calculatePinCoordinates();
+      window.mapPinMain.style.top = limitYCoords(window.mapPinMain.offsetTop - shift.y) + 'px';
+      window.mapPinMain.style.left = limitXCoords(window.mapPinMain.offsetLeft - shift.x) + 'px';
+      addressInput.value = window.calculatePinCoordinates();
     };
 
     var pinMouseUpHandler = function (upEvt) {
       upEvt.preventDefault();
-      addressInput.value = calculatePinCoordinates();
+      addressInput.value = window.calculatePinCoordinates();
 
       document.removeEventListener('mousemove', pinMouseMoveHandler);
       document.removeEventListener('mouseup', pinMouseUpHandler);
@@ -156,9 +156,9 @@
       if (dragged) {
         var clickPreventDefaultHandler = function (clickEvt) {
           clickEvt.preventDefault();
-          mapPinMain.removeEventListener('click', clickPreventDefaultHandler);
+          window.mapPinMain.removeEventListener('click', clickPreventDefaultHandler);
         };
-        mapPinMain.addEventListener('click', clickPreventDefaultHandler);
+        window.mapPinMain.addEventListener('click', clickPreventDefaultHandler);
       }
     };
 

@@ -4,8 +4,8 @@
   var adFormChildren = window.util.adForm.children;
   var map = document.querySelector('.map');
   window.mapPinMain = map.querySelector('.map__pin--main');
-  var mapFilters = map.querySelector('.map__filters');
-  var mapFiltersChildren = mapFilters.children;
+  var mapFilter = map.querySelector('.map__filters');
+  var mapFiltersChildren = mapFilter.children;
   var addressInput = window.util.adForm.querySelector('input[name = "address"]');
   var housingType = map.querySelector('#housing-type');
   var mapPins = map.querySelector('.map__pins');
@@ -16,7 +16,7 @@
   var MIN_MAP_HEIGHT = 130;
   var MAX_MAP_HEIGHT = 630;
 
-  var pins = [];
+  // var pins = [];
 
   var limitXCoords = function (x) {
     var start = mapPins.offsetLeft - window.mapPinMain.offsetWidth / 2;
@@ -76,8 +76,8 @@
   };
 
   var successGetHandler = function (pinData) {
-    pins = pinData;
-    updateMap(pins);
+    window.pins = pinData;
+    updateMap(window.pins);
   };
 
   var errorHandler = function (errorMessage) {
@@ -114,7 +114,7 @@
   });
 
   housingType.addEventListener('change', function () {
-    updateMap(pins);
+    updateMap(window.pins);
   });
 
   window.mapPinMain.addEventListener('mousedown', function (evt) {

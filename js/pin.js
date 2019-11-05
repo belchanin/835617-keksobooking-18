@@ -14,22 +14,22 @@
 
     document.addEventListener('keydown', function (evt) {
       if (evt.keyCode === window.util.ESC_KEYCODE) {
-        deleteCard(mapCard);
+        window.deleteCard(mapCard);
       }
     });
 
     cardClose.addEventListener('click', function () {
-      deleteCard(mapCard);
+      window.deleteCard(mapCard);
     });
 
     cardClose.addEventListener('keydown', function (evt) {
       if (evt.keyCode === window.util.ENTER_KEYCODE) {
-        deleteCard(mapCard);
+        window.deleteCard(mapCard);
       }
     });
   };
 
-  var deleteCard = function (element) {
+  window.deleteCard = function (element) {
     map.removeChild(element);
   };
 
@@ -63,7 +63,8 @@
 
   window.renderPins = function (pinsData) {
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < PIN_QUANTITY; i++) {
+    var limitCycle = pinsData.length > 5 ? PIN_QUANTITY : pinsData.length;
+    for (var i = 0; i < limitCycle; i++) {
       fragment.appendChild(insertData(pinTemplate, pinsData[i]));
     }
     pinList.appendChild(fragment);

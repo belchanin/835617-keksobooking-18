@@ -2,35 +2,40 @@
 
 (function () {
   var PIN_QUANTITY = 5;
+
   var map = document.querySelector('.map');
   var filtersContainer = map.querySelector('.map__filters-container');
 
   var showCard = function (element) {
+    var mapCard = map.querySelector('.map__card');
+    if (mapCard) {
+      mapCard.remove();
+    }
     var newCard = window.insertCardData(element);
     map.insertBefore(newCard, filtersContainer);
 
+    var newCardContent = document.querySelector('.map__card');
     var cardClose = map.querySelector('.popup__close');
-    var mapCard = map.querySelector('.map__card');
 
     document.addEventListener('keydown', function (evt) {
       if (evt.keyCode === window.util.ESC_KEYCODE) {
-        window.deleteCard(mapCard);
+        window.deleteCard(newCardContent);
       }
     });
 
     cardClose.addEventListener('click', function () {
-      window.deleteCard(mapCard);
+      window.deleteCard(newCardContent);
     });
 
     cardClose.addEventListener('keydown', function (evt) {
       if (evt.keyCode === window.util.ENTER_KEYCODE) {
-        window.deleteCard(mapCard);
+        window.deleteCard(newCardContent);
       }
     });
   };
 
   window.deleteCard = function (element) {
-    map.removeChild(element);
+    element.remove();
   };
 
   var cardOpenСlickHander = function (listener, element) {

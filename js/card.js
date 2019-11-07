@@ -19,6 +19,14 @@
     CONDITIONER: 'Кондиционер',
   };
 
+  var renderCardDescription = function (objectElement, domElement) {
+    if (objectElement) {
+      domElement.textContent = objectElement;
+    } else {
+      domElement.style.display = 'none';
+    }
+  };
+
   window.insertCardData = function (element) {
     var newBlock = card.cloneNode(true);
     var popupTitle = newBlock.querySelector('.popup__title');
@@ -33,32 +41,64 @@
     var popupAvatar = newBlock.querySelector('.popup__avatar');
     var popupPhotosImg = popupPhotos.querySelector('img');
 
-    popupTitle.textContent = element.offer.title;
-    popupTextAddress.textContent = element.offer.address;
-    popupTextPrice.textContent = element.offer.price + ' ₽/ночь';
-    popupType.textContent = HouseType[element.offer.type.toUpperCase()];
-    popupCapacity.textContent = element.offer.rooms + ' комнаты для ' + element.offer.guests + ' гостей';
-    popupTime.textContent = 'Заезд после ' + element.offer.checkin + ', выезд до ' + element.offer.checkout;
+    renderCardDescription(element.offer.title, popupTitle);
+    renderCardDescription(element.offer.address, popupTextAddress);
+    renderCardDescription(element.offer.description, popupDescription);
 
-    for (var i = 0; i < element.offer.features.length; i++) {
-      var newElement = document.createElement('li');
-      newElement.textContent = FeaturesType[element.offer.features[i].toUpperCase()];
-      popupFeatures.appendChild(newElement);
+    if (element.offer.price) {
+      popupTextPrice.textContent = element.offer.price + ' ₽/ночь';
+    } else {
+      popupTextPrice.style.display = 'none';
     }
-    popupDescription.textContent = element.offer.description;
 
-    for (i = 0; i < element.offer.photos.length; i++) {
-      if (i === 0) {
-        popupPhotosImg.setAttribute('src', element.offer.photos[i]);
-      } else {
-        var newPhoto = popupPhotosImg.cloneNode(true);
-        newPhoto.setAttribute('src', element.offer.photos[i]);
-        popupPhotos.appendChild(newPhoto);
+    if (element.offer.type) {
+      popupType.textContent = HouseType[element.offer.type.toUpperCase()];
+    } else {
+      popupType.style.display = 'none';
+    }
 
+    if (element.offer.rooms && element.offer.guests) {
+      popupCapacity.textContent = element.offer.rooms + ' комнаты для ' + element.offer.guests + ' гостей';
+    } else {
+      popupCapacity.style.display = 'none';
+    }
+
+    if (element.offer.checkin !== '0:00' && element.offer.checkout !== '0:00') {
+      popupTime.textContent = 'Заезд после ' + element.offer.checkin + ', выезд до ' + element.offer.checkout;
+    } else {
+      popupTime.style.display = 'none';
+    }
+
+    if (element.offer.features) {
+      for (var i = 0; i < element.offer.features.length; i++) {
+        var newElement = document.createElement('li');
+        newElement.textContent = FeaturesType[element.offer.features[i].toUpperCase()];
+        popupFeatures.appendChild(newElement);
       }
+    } else {
+      popupFeatures.style.display = 'none';
     }
 
-    popupAvatar.setAttribute('src', element.author.avatar);
+    if (element.offer.photos.length) {
+      for (i = 0; i < element.offer.photos.length; i++) {
+        if (i === 0) {
+          popupPhotosImg.setAttribute('src', element.offer.photos[i]);
+        } else {
+          var newPhoto = popupPhotosImg.cloneNode(true);
+          newPhoto.setAttribute('src', element.offer.photos[i]);
+          popupPhotos.appendChild(newPhoto);
+
+        }
+      }
+    } else {
+      popupPhotos.style.display = 'none';
+    }
+
+    if (element.author.avatar) {
+      popupAvatar.setAttribute('src', element.author.avatar);
+    } else {
+      popupAvatar.style.display = 'none';
+    }
 
     return newBlock;
   };

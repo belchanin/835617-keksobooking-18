@@ -2,15 +2,15 @@
 
 (function () {
   var PriceRange = {
-    low: {
+    LOW: {
       min: 0,
       max: 10000
     },
-    middle: {
+    MIDDLE: {
       min: 10000,
       max: 50000
     },
-    high: {
+    HIGH: {
       min: 50000,
       max: Infinity
     }
@@ -24,40 +24,32 @@
   var mapFilterFeature = mapFilter.querySelector('#housing-features');
 
   var filterMap = function (filteredElement) {
-    return filteredElement.filter(function (el) {
+    return filteredElement.filter(function (element) {
       if (mapFilterType.value === 'any') {
         return true;
       }
 
-      return el.offer.type === mapFilterType.value;
+      return element.offer.type === mapFilterType.value;
     })
-    .filter(function (el) {
-      if (mapFilterPrice.value === 'any') {
-        return true;
-      }
-
-      if ((PriceRange[mapFilterPrice.value].min < el.offer.price) && (el.offer.price < PriceRange[mapFilterPrice.value].max)) {
-        return true;
-      }
-
-      return false;
+    .filter(function (element) {
+      return (mapFilterPrice.value === 'any' || (PriceRange[mapFilterPrice.value.toUpperCase()].min < element.offer.price) && (element.offer.price < PriceRange[mapFilterPrice.value.toUpperCase()].max));
     })
-    .filter(function (el) {
+    .filter(function (element) {
       if (mapFilterRoom.value === 'any') {
         return true;
       }
 
-      return el.offer.rooms === parseInt(mapFilterRoom.value, 10);
+      return element.offer.rooms === parseInt(mapFilterRoom.value, 10);
     })
-    .filter(function (el) {
+    .filter(function (element) {
       if (mapFilterGuest.value === 'any') {
         return true;
       }
-      return el.offer.guests === parseInt(mapFilterGuest.value, 10);
+      return element.offer.guests === parseInt(mapFilterGuest.value, 10);
     })
-    .filter(function (el) {
-      return filterFeatures(mapFilterFeature).every(function (element) {
-        return el.offer.features.includes(element.value);
+    .filter(function (element) {
+      return filterFeatures(mapFilterFeature).every(function (filterElement) {
+        return filterElement.offer.features.includes(element.value);
       });
     })
     .slice(0, window.PINS_LIMIT);
@@ -73,8 +65,10 @@
 
   var updateAdverts = function () {
     var filteredElement = filterMap(window.pins);
-
-    // window.deleteCard();
+    var openedCard = document.querySelector('.map__card');
+    if (openedCard) {
+      window.deleteCard(openedCard);
+    }
     var pins = document.querySelectorAll('.map__pin');
     for (var i = 1; i < pins.length; i++) {
       pins[i].remove();

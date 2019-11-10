@@ -31,25 +31,36 @@
     return featuresChecked;
   };
 
+  var filterType = function (element) {
+    return (mapFilterType.value === 'any' ? true : element.offer.type === mapFilterType.value);
+  };
+
+  var filterPrice = function (element) {
+    return (mapFilterPrice.value === 'any' || (PriceRange[mapFilterPrice.value.toUpperCase()].min < element.offer.price) && (element.offer.price < PriceRange[mapFilterPrice.value.toUpperCase()].max));
+  };
+
+  var filterRoom = function (element) {
+    return (mapFilterRoom.value === 'any') ? true : element.offer.rooms === parseInt(mapFilterRoom.value, 10);
+  };
+
+  var filterGuest = function (element) {
+    return (mapFilterGuest.value === 'any') ? true : element.offer.guests === parseInt(mapFilterGuest.value, 10);
+  };
+
+  var filterFeaturesElement = function (element) {
+    return filterFeatures(mapFilterFeature).every(function (filterElement) {
+      return element.offer.features.includes(filterElement.value);
+    });
+  };
+
   var filterMap = function (filteredElement) {
     return filteredElement.filter(function (element) {
-      return (mapFilterType.value === 'any' ? true : element.offer.type === mapFilterType.value);
-    })
-    .filter(function (element) {
-      return (mapFilterPrice.value === 'any' || (PriceRange[mapFilterPrice.value.toUpperCase()].min < element.offer.price) && (element.offer.price < PriceRange[mapFilterPrice.value.toUpperCase()].max));
-    })
-    .filter(function (element) {
-      return (mapFilterRoom.value === 'any') ? true : element.offer.rooms === parseInt(mapFilterRoom.value, 10);
-    })
-    .filter(function (element) {
-      return (mapFilterGuest.value === 'any') ? true : element.offer.guests === parseInt(mapFilterGuest.value, 10);
-    })
-    .filter(function (element) {
-      return filterFeatures(mapFilterFeature).every(function (filterElement) {
-        return element.offer.features.includes(filterElement.value);
-      });
-    })
-    .slice(0, window.pin.PINS_QUANTITY);
+      return filterType(element) &&
+             filterPrice(element) &&
+             filterRoom(element) &&
+             filterGuest(element) &&
+             filterFeaturesElement(element);
+    }).slice(0, window.pin.PINS_QUANTITY);
   };
 
   var updateAdverts = function () {
@@ -68,22 +79,7 @@
     window.pin.renderPins(filteredElement);
   };
 
-  mapFilterType.addEventListener('change', function () {
-    window.debounce(updateAdverts)();
-  });
-
-  mapFilterPrice.addEventListener('change', function () {
-    window.debounce(updateAdverts)();
-  });
-
-  mapFilterRoom.addEventListener('change', function () {
-    window.debounce(updateAdverts)();
-  });
-
-  mapFilterGuest.addEventListener('change', function () {
-    window.debounce(updateAdverts)();
-  });
-  mapFilterFeature.addEventListener('change', function () {
+  mapFilter.addEventListener('change', function () {
     window.debounce(updateAdverts)();
   });
 })();

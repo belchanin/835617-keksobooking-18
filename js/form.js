@@ -1,8 +1,16 @@
 'use strict';
 
 (function () {
+  var DEFAULT_PRICE_PLACEHOLDER = '1000';
+  var DEFAULT_HOUSE_TYPE = 'flat';
+  var DEFAULT_TIME = '12:00';
+  var DEFAULT_GUEST_QUANTITY = '3';
+  var DEFAULT_ROOM_QUANTITY = '1';
+  var DEFAULT_IMG_PREVIEW_SRC = 'img/muffin-grey.svg';
+
   var adForm = document.querySelector('.ad-form');
   var adFormReset = adForm.querySelector('.ad-form__reset');
+  var adFormHeaderPreview = adForm.querySelector('.ad-form-header__preview img');
   var mainContent = document.querySelector('main');
   var room = adForm.querySelector('[name = "rooms"]');
   var guest = adForm.querySelector('[name= "capacity"]');
@@ -76,14 +84,20 @@
   var resetMap = function () {
     map.classList.add('map--faded');
     var pins = document.querySelectorAll('.map__pin');
-    for (var i = 1; i < pins.length; i++) {
-      pins[i].remove();
+    pins.forEach(function (element) {
+      if (!element.classList.contains('map__pin--main')) {
+        element.remove();
+      }
+    });
+    var openedCard = document.querySelector('.map__card');
+    if (openedCard) {
+      window.pin.deleteCard(openedCard);
     }
 
-    window.mapPinMain.style.top = map.offsetHeight / 2 + 'px';
-    window.mapPinMain.style.left = map.offsetWidth / 2 - window.MAIN_PIN_WIDTH / 2 + 'px';
+    window.main.mapPinMain.style.top = map.offsetHeight / 2 + 'px';
+    window.main.mapPinMain.style.left = map.offsetWidth / 2 - window.main.MAIN_PIN_WIDTH / 2 + 'px';
 
-    addressInput.value = window.calculatePinCoordinates();
+    addressInput.value = window.main.calculatePinCoordinates();
   };
 
   var resetFilter = function () {
@@ -104,27 +118,36 @@
   };
 
   var resetPageState = function () {
+    var adFormPhotos = adForm.querySelectorAll('.ad-form__photo img');
+
     formTitle.value = '';
     formDescription.value = '';
     price.value = '';
-    price.placeholder = '1000';
     formTitle.value = '';
     formDescription.value = '';
-    houseType.value = 'flat';
-    timeIn.value = '12:00';
-    timeOut.value = '12:00';
-    guest.value = '3';
-    room.value = '1';
+    price.placeholder = DEFAULT_PRICE_PLACEHOLDER;
+    houseType.value = DEFAULT_HOUSE_TYPE;
+    timeIn.value = DEFAULT_TIME;
+    timeOut.value = DEFAULT_TIME;
+    guest.value = DEFAULT_GUEST_QUANTITY;
+    room.value = DEFAULT_ROOM_QUANTITY;
+    adFormHeaderPreview.src = DEFAULT_IMG_PREVIEW_SRC;
+    if (adFormPhotos) {
+      adFormPhotos.forEach(function (photo) {
+        photo.remove();
+      });
+    }
     formFeatures.forEach(function (feature) {
       feature.checked = false;
     });
 
     adForm.classList.add('ad-form--disabled');
-    window.setDisabledAttributes(adFormChildren);
-    window.setDisabledAttributes(mapFiltersChildren);
+    window.main.setDisabledAttributes(adFormChildren);
+    window.main.setDisabledAttributes(mapFiltersChildren);
 
     resetFilter();
     resetMap();
+    window.main.mapDisabled = true;
   };
 
   var successPostHandler = function () {
@@ -140,7 +163,7 @@
         hideSuccessBlockClickHandler();
       }
     });
-
+    window.main.mapDisabled = true;
     resetPageState();
   };
 
@@ -170,8 +193,8 @@
   });
 
   houseType.addEventListener('change', function () {
-    price.setAttribute('placeholder', PriceForHouseType[houseType.value.toUpperCase()]);
-    price.setAttribute('min', PriceForHouseType[houseType.value.toUpperCase()]);
+    price.placeholder = PriceForHouseType[houseType.value.toUpperCase()];
+    price.min = PriceForHouseType[houseType.value.toUpperCase()];
   });
 
   room.addEventListener('change', function () {
@@ -183,5 +206,5 @@
     evt.preventDefault();
   });
 
-  adFormReset.addEventListener('reset', resetPageState);
+  adFormReset.addEventListener('click', resetPageState);
 })();

@@ -10,15 +10,6 @@
     HOUSE: 'Дом',
   };
 
-  var FeaturesType = {
-    WIFI: 'Wi-Fi',
-    DISHWASHER: 'Посудомоечная машина',
-    PARKING: 'Парковка',
-    WASHER: 'Стиральная машина',
-    ELEVATOR: 'Лифт',
-    CONDITIONER: 'Кондиционер',
-  };
-
   var renderCardDescription = function (objectElement, domElement) {
     if (objectElement) {
       domElement.textContent = objectElement;
@@ -70,9 +61,10 @@
     }
 
     if (element.offer.features) {
+      popupFeatures.innerHTML = '';
       for (var i = 0; i < element.offer.features.length; i++) {
         var newElement = document.createElement('li');
-        newElement.textContent = FeaturesType[element.offer.features[i].toUpperCase()];
+        newElement.classList.add('popup__feature', 'popup__feature--' + element.offer.features[i]);
         popupFeatures.appendChild(newElement);
       }
     } else {
@@ -82,10 +74,10 @@
     if (element.offer.photos.length) {
       for (i = 0; i < element.offer.photos.length; i++) {
         if (i === 0) {
-          popupPhotosImg.setAttribute('src', element.offer.photos[i]);
+          popupPhotosImg.src = element.offer.photos[i];
         } else {
           var newPhoto = popupPhotosImg.cloneNode(true);
-          newPhoto.setAttribute('src', element.offer.photos[i]);
+          newPhoto.src = element.offer.photos[i];
           popupPhotos.appendChild(newPhoto);
 
         }
@@ -95,7 +87,7 @@
     }
 
     if (element.author.avatar) {
-      popupAvatar.setAttribute('src', element.author.avatar);
+      popupAvatar.src = element.author.avatar;
     } else {
       popupAvatar.style.display = 'none';
     }

@@ -94,8 +94,8 @@
       window.pin.deleteCard(openedCard);
     }
 
-    window.main.mapPinMain.style.top = map.offsetHeight / 2 + 'px';
-    window.main.mapPinMain.style.left = map.offsetWidth / 2 - window.main.MAIN_PIN_WIDTH / 2 + 'px';
+    window.main.bigPin.style.top = map.offsetHeight / 2 + 'px';
+    window.main.bigPin.style.left = map.offsetWidth / 2 - window.main.BIG_PIN_WIDTH / 2 + 'px';
 
     addressInput.value = window.main.calculatePinCoordinates();
   };

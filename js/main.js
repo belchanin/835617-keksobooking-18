@@ -62,7 +62,7 @@
 
   var successGetHandler = function (pinData) {
     window.main.pins = pinData;
-    window.pin.renderPins(window.main.pins);
+    window.pin.render(window.main.pins);
   };
 
   var errorHandler = function (errorMessage) {
@@ -104,7 +104,7 @@
   mapPinMain.addEventListener('keydown', mapPinMainEnterPressHandler);
 
   housingType.addEventListener('change', function () {
-    window.pin.renderPins(window.main.pins);
+    window.pin.render(window.main.pins);
   });
 
   mapPinMain.addEventListener('mousedown', function (evt) {
@@ -158,8 +158,8 @@
   });
 
   window.main = {
-    MAIN_PIN_WIDTH: MAIN_PIN_WIDTH,
-    mapPinMain: mapPinMain,
+    BIG_PIN_WIDTH: MAIN_PIN_WIDTH,
+    bigPin: mapPinMain,
     pins: pins,
     mapDisabled: mapDisabled,
     calculatePinCoordinates: calculatePinCoordinates,

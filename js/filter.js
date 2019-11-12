@@ -60,7 +60,7 @@
              filterRoom(element) &&
              filterGuest(element) &&
              filterFeaturesElement(element);
-    }).slice(0, window.pin.PINS_QUANTITY);
+    }).slice(0, window.pin.QUANTITY);
   };
 
   var updateAdverts = function () {
@@ -76,7 +76,7 @@
         element.remove();
       }
     });
-    window.pin.renderPins(filteredElement);
+    window.pin.render(filteredElement);
   };
 
   mapFilter.addEventListener('change', function () {

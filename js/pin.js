@@ -76,7 +76,7 @@
 
   var renderPins = function (pinsData) {
     var fragment = document.createDocumentFragment();
-    var limitCycle = pinsData.length > window.pin.PIN_QUANTITY ? window.pin.PIN_QUANTITY : pinsData.length;
+    var limitCycle = pinsData.length > window.pin.QUANTITY ? window.pin.QUANTITY : pinsData.length;
     for (var i = 0; i < limitCycle; i++) {
       fragment.appendChild(insertData(pinTemplate, pinsData[i]));
     }
@@ -90,8 +90,8 @@
   };
 
   window.pin = {
-    renderPins: renderPins,
+    render: renderPins,
     deleteCard: deleteCard,
-    PIN_QUANTITY: PIN_QUANTITY,
+    QUANTITY: PIN_QUANTITY,
   };
 })();
